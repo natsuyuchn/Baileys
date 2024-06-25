@@ -6,6 +6,7 @@ import { once } from 'events'
 import { mkdirSync, existsSync, createReadStream, createWriteStream, promises as fs, WriteStream } from 'fs'
 import type { IAudioMetadata } from 'music-metadata'
 import { join } from 'path'
+import { tmpdir } from 'os'
 import type { Logger } from 'pino'
 import { Readable, Transform } from 'stream'
 import { URL } from 'url'
@@ -17,11 +18,7 @@ import { aesDecryptGCM, aesEncryptGCM, hkdf } from './crypto'
 import { generateMessageID } from './generics'
 
 
-const getTmpFilesDirectory = () => "./temp/"
-
-if (!existsSync("./temp/")) {
-	mkdirSync("./temp/")
-}
+const getTmpFilesDirectory = () => tmpdir()
 
 const getImageProcessingLibrary = async() => {
 	const [_jimp, sharp] = await Promise.all([
