@@ -19,7 +19,7 @@ import { generateMessageID } from './generics'
 
 const getTmpFilesDirectory = () => "./temp/"
 
-if (!existsSync("./temp/") {
+if (!existsSync("./temp/")) {
 	mkdirSync("./temp/")
 }
 
