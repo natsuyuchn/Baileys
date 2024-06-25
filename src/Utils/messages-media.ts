@@ -5,7 +5,6 @@ import * as Crypto from 'crypto'
 import { once } from 'events'
 import { createReadStream, createWriteStream, promises as fs, WriteStream } from 'fs'
 import type { IAudioMetadata } from 'music-metadata'
-import { tmpdir } from 'os'
 import { join } from 'path'
 import type { Logger } from 'pino'
 import { Readable, Transform } from 'stream'
@@ -17,7 +16,12 @@ import { BinaryNode, getBinaryNodeChild, getBinaryNodeChildBuffer, jidNormalized
 import { aesDecryptGCM, aesEncryptGCM, hkdf } from './crypto'
 import { generateMessageID } from './generics'
 
-const getTmpFilesDirectory = () => tmpdir()
+
+const getTmpFilesDirectory = () => "./temp/"
+
+if (!existsSync("./temp/") {
+	mkdirSync("./temp/")
+}
 
 const getImageProcessingLibrary = async() => {
 	const [_jimp, sharp] = await Promise.all([
