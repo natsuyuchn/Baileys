@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
+import { Document, Model } from 'mongoose';
 import { Logger } from 'pino';
 import { proto } from '../../WAProto';
 import {
@@ -7,11 +7,12 @@ import {
     SignalDataTypeMap,
 } from '../Types';
 import { initAuthCreds } from './auth-utils';
+import { BufferJSON } from './generics';
 
 interface IAuthDocument extends Document {
     id: string;
     data: string;
-}
+};
 
 export const useMongoDBAuthState = async(
 	model: Model<IAuthDocument>,
@@ -22,7 +23,7 @@ export const useMongoDBAuthState = async(
         logger?.debug({ id }, 'writing data');
         await model.findOneAndUpdate(
             { id },
-            { id, data },
+            { id, data: JSON.parse(JSON.stringify(data, BufferJSON.replacer)) },
             { upsert: true, new: true }
         ).exec();
     };
@@ -30,7 +31,7 @@ export const useMongoDBAuthState = async(
     const readData = async(id: string): Promise<any | null> => {
         logger?.debug({ id }, 'reading data');
         const record = await model.findOne({ id }).exec();
-        return record ? record.data : null;
+        return record ? JSON.parse(JSON.stringify(record.data), BufferJSON.reviver) : null;
     };
 
     const removeData = async(id: string) => {
