@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2018",
-    "module": "CommonJS",
+    "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "experimentalDecorators": true,
     "allowJs": false,
@@ -17,6 +17,6 @@
     "declaration": true,
     "lib": ["es2020", "esnext.array", "DOM"]
   },
-  "include": ["./src/**/*.ts"],
+  "include": ["./src/**/*.ts", "./src/**/*.json"],
   "exclude": ["node_modules", "src/Tests/*", "src/Binary/GenerateStatics.ts"]
 }
